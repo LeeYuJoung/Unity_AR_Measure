@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class RulerObjectST : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<Transform> objectList = new List<Transform>();
+    public LineRenderer lineObject;
+    public Transform textObject;
+    public TextMesh textMesh;
+    public Transform mainCam;
+
+    public void SetInit(Vector3 pos)
     {
-        
+        objectList[0].transform.position = pos;
+        lineObject.SetPosition(0, pos);
     }
 
-    // Update is called once per frame
+    public void SetObject(Vector3 pos)
+    {
+        objectList[1].transform.position = pos;
+        lineObject.SetPosition(1, pos);
+    }
+
     void Update()
     {
-        
+        Vector3 tVector = objectList[1].position - objectList[0].position;
+        textObject.position = objectList[0].position + tVector * 0.5f;
+
+        float tDistance = tVector.magnitude;
+        string tDisText = string.Format("{0}mm", tDistance.ToString("N2"));
+        textMesh.text = tDisText;
+        textObject.LookAt(mainCam);
     }
 }
