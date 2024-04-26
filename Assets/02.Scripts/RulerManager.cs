@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class RulerManager : MonoBehaviour
 {
     public ARRaycastManager m_RaycastManager;
-    static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
+    static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     public Vector2 _centerVec;
     public Transform _camPivot;
     public Transform _pivot;
@@ -18,19 +18,18 @@ public class RulerManager : MonoBehaviour
     private List<RulerObjectST> _rulerObjList = new List<RulerObjectST>();
     private bool _rulerEnable;
     private Vector3 _rulerPosSave;
-    // Start is called before the first frame update
+
     void Start()
     {
         _centerVec = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (m_RaycastManager.Raycast(_centerVec, s_Hits, TrackableType.PlaneWithinPolygon))
+        if (m_RaycastManager.Raycast(_centerVec, hits, TrackableType.AllTypes))
         {
-            var hitPose = s_Hits[0].pose; // 첫번째로 측정된 면의 정보를 가져옴.
-            float hitDis = s_Hits[0].distance;
+            var hitPose = hits[0].pose; // 첫번째로 측정된 면의 정보를 가져옴.
+            float hitDis = hits[0].distance;
             if (hitDis < 0.1f) hitDis = 0.1f;
             if (hitDis > 0.5f) hitDis = 0.5f;
             hitDis = hitDis * -0.25f + 1.45f;
