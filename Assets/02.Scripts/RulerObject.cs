@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RulerObjectST : MonoBehaviour
+public class RulerObject : MonoBehaviour
 {
     public List<Transform> objectList = new List<Transform>();
     public LineRenderer lineObject;
@@ -27,8 +27,8 @@ public class RulerObjectST : MonoBehaviour
         Vector3 tVector = objectList[1].position - objectList[0].position;
         textObject.position = objectList[0].position + tVector * 0.5f;
 
-        float tDistance = tVector.magnitude;
-        string tDisText = string.Format("{0}mm", tDistance.ToString("N2"));
+        float tDistance = tVector.magnitude * 100.0f;
+        string tDisText = string.Format("{0}cm", tDistance.ToString("N2"));
         textMesh.text = tDisText;
         textObject.LookAt(mainCam);
     }

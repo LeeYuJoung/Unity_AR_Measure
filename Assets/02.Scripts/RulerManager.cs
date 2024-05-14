@@ -14,8 +14,8 @@ public class RulerManager : MonoBehaviour
     public Transform _pivot;
     public Transform _rulerPool;
     public GameObject _rulerObj;
-    private RulerObjectST _nowRulerObj;
-    private List<RulerObjectST> _rulerObjList = new List<RulerObjectST>();
+    private RulerObject _nowRulerObj;
+    private List<RulerObject> _rulerObjList = new List<RulerObject>();
     private bool _rulerEnable;
     private Vector3 _rulerPosSave;
 
@@ -26,9 +26,9 @@ public class RulerManager : MonoBehaviour
 
     void Update()
     {
-        if (m_RaycastManager.Raycast(_centerVec, hits, TrackableType.AllTypes))
+        if (m_RaycastManager.Raycast(_centerVec, hits, TrackableType.PlaneWithinPolygon))
         {
-            var hitPose = hits[0].pose; // 첫번째로 측정된 면의 정보를 가져옴.
+            var hitPose = hits[0].pose;     // 첫번째로 측정된 면의 정보를 가져옴.
             float hitDis = hits[0].distance;
             if (hitDis < 0.1f) hitDis = 0.1f;
             if (hitDis > 0.5f) hitDis = 0.5f;
@@ -56,7 +56,7 @@ public class RulerManager : MonoBehaviour
         }
     }
 
-    public void MakeRulerObj()
+    public void MakeRulerObject()
     {
         if (_rulerEnable)
         {
@@ -68,7 +68,7 @@ public class RulerManager : MonoBehaviour
                 tObj.transform.position = Vector3.zero;
                 tObj.transform.localScale = new Vector3(1, 1, 1);
 
-                RulerObjectST tObjST = tObj.GetComponent<RulerObjectST>();
+                RulerObject tObjST = tObj.GetComponent<RulerObject>();
                 tObjST.mainCam = _camPivot;
                 tObjST.SetInit(_rulerPosSave);
                 _rulerObjList.Add(tObjST);
@@ -79,6 +79,11 @@ public class RulerManager : MonoBehaviour
                 _nowRulerObj = null;
             }
         }
+
+    }
+
+    public void ClearRulerObject()
+    {
 
     }
 }
